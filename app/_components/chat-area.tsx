@@ -12,7 +12,6 @@ function ChatArea() {
   const [showSidebar, setShowSidebar] = React.useState(false);
   const [input, setInput] = useState('');
   const { messages, sendMessage, status, setMessages } = useChat({
-    initialMessages: [],
     transport: new DefaultChatTransport({
       api: '/api/chat',
     }),
@@ -26,7 +25,7 @@ function ChatArea() {
         const response = await createNewChat({
           user: "6a12cca5de57e2e05f3e1a94",
           messages: messages,
-          title: messages[0]?.parts[0].text || "New Chat(default)"
+          title: messages[0]?.parts[0] || "New Chat(default)"
         });
         if (response.success) {
           setSelectedChat(response.data);
@@ -35,7 +34,7 @@ function ChatArea() {
       }else
       {
         const response = await updateChat({
-          chatId: selectedChat._id,
+          chatId: (selectedChat as any)._id,
           messages: messages,
         })
       
@@ -55,7 +54,7 @@ function ChatArea() {
 
   useEffect(() => {
     if(selectedChat) {
-      setMessages(selectedChat.messages);
+      setMessages((selectedChat as any).messages);
     } else {
       setMessages([]);
     }

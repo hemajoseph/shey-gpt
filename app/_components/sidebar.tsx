@@ -59,7 +59,7 @@ function Sidebar({
       <div className='flex gap-2 border border-gray-200 border-solid text-gray-200 p-1 rounded-sm w-max
          items-center cursor-pointer'
          onClick={() => {
-            console.log(`New chat clicked ${selectedChat?.title}`);
+            console.log(`New chat clicked ${ (selectedChat as any)?.title}`);
               setSelectedChat(null);
               setShowSidebar(false);
             } }>
@@ -72,7 +72,7 @@ function Sidebar({
         }
         <div className='flex flex-col gap-3 p-3'>
           {userChats.map((chat: any) => (
-            <div className={`cursor-pointer flex justify-between p-2 rounded w-full ${selectedChat?._id === chat._id ? "bg-yellow-700" : ""}`} 
+            <div className={`cursor-pointer flex justify-between p-2 rounded w-full ${((selectedChat as any)?._id === chat._id ? "bg-yellow-700" : "")}`} 
              onClick={async () => {
                 const response = await getChatByChatId(chat._id);
 

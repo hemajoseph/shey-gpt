@@ -28,7 +28,9 @@ export default function Home() {
   return (
     <div className="flex h-screen">
   
-        <div className="hidden lg:flex"><Sidebar /></div>
+        <div className="hidden lg:flex"><Sidebar setShowSidebar={function (): void {
+        throw new Error("Function not implemented.");
+      } } /></div>
  
       <div className="flex-1 h-full">
         <ChatArea />

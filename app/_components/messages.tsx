@@ -37,7 +37,7 @@ function Messages({ messages }: { messages: any[] }) {
             if (message.role === 'user') {
             return (
                 <div key={message.id} className='flex justify-end'>
-                        <span className='bg-gray-100 p-3 rounded'>{message.parts.map((part, index) =>
+                        <span className='bg-gray-100 p-3 rounded'>{message.parts.map((part : any, index : any) =>
                                 part.type === 'text' ? <span key={index}>{part.text}</span> : null,
                             )}</span>
                                             
@@ -46,12 +46,12 @@ function Messages({ messages }: { messages: any[] }) {
             );
         }
         const textToCopy = message.parts
-                                    .filter(p => p.type === "text")
-                                    .map(p => p.text)
+                                    .filter((p: any) => p.type === "text")
+                                    .map((p: any) => p.text)
                                     .join("\n");
         return <div key={message.id} className='flex gap-5'>
             <Bot size={16} />
-            <div className="flex-1 flex flex-col gap-5">{message.parts.map((part, index) =>
+            <div className="flex-1 flex flex-col gap-5">{message.parts.map((part : any, index : any) =>
                         part.type === 'text' ? <div  className="flex-1 flex flex-col gap-5" key={index}><Markdown>{part.text}</Markdown></div> : null,
                     )}
                     <div className='flex gap-5'>

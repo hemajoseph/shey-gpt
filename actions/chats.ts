@@ -71,9 +71,9 @@ export const updateChat = async ({chatId = "", messages =[]}: {chatId?: string, 
     try {
          console.log("Messages passed in", messages.length);
         const responseBefore = await ChatModel.findById(chatId);
-        console.log("Before save", responseBefore.messages.length);
+        console.log("Before save", responseBefore?.messages.length);
         const response = await ChatModel.findByIdAndUpdate(chatId, { messages  }, { new: true });
-        console.log("After save", response.messages.length);
+       
         //console.log("AFTER DBUPDATE CAll! Updated Chat:", JSON.stringify(response, null, 2));
         return {
             success: true,
