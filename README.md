@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SHEY-GPT
 
-## Getting Started
+SHEY-GPT is a lightweight chat UI built with Next.js that connects a browser client to AI backends and persists conversation history. It provides a responsive chat area, conversation list, Markdown rendering of AI responses, and basic copy/share actions — suitable as a starting point for building an assistant or prototype UI wired to OpenAI/Google AI providers and MongoDB.
 
-First, run the development server:
+## Key features
+- Conversational UI with input box and streamed replies via the `ai` SDK.
+- Conversation history: create, update and delete chats (persisted via Mongoose).
+- Markdown rendering for AI responses (react-markdown).
+- Copy and share actions for individual assistant messages.
+- Mobile-friendly layout with a collapsible sidebar for chat selection.
+- Zustand store for client-side chat state.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Technology stack
+- Language: TypeScript (Next.js app router + React)
+- Framework / runtime: Next.js (App Router) — Next 16
+- UI: React 19, Tailwind CSS, lucide-react icons, (antd present in deps)
+- AI / LLM integration: @ai-sdk/react, @ai-sdk/openai, @ai-sdk/google, ai
+- Persistence: Mongoose (MongoDB)
+- State management: zustand
+- Other: react-markdown, react-share
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## High-level architecture
+- Client (app/*): React client components implement the chat UI.
+  - app/page.tsx — top-level client page that initializes user and layout.
+  - app/_components/sidebar.tsx — conversation list and controls (new/delete).
+  - app/_components/chat-area.tsx — main chat area, sends messages via the AI client transport.
+  - app/_components/messages.tsx — renders messages and provides copy/share actions.
+- API (server-side): client uses DefaultChatTransport with `api: '/api/chat'` — server route expected to forward chat requests to the configured AI provider(s) and return assistant responses.
+- Persistence: Mongoose models (models/) and actions/ files implement CRUD for chats and users. Client calls action helpers (createNewChat, updateChat, getChatsByUserId, deleteChat).
+- State: Zustand store (store/) holds selected chat and userChats in the browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+How it fits together:
+- The client sends messages using the `ai` SDK `DefaultChatTransport` to `/api/chat`.
+- Server-side route (not shown here) is responsible for interacting with OpenAI/Google via the SDKs and for saving chat documents to MongoDB via Mongoose.
+- Conversations are fetched and managed from the client using action helpers that call server endpoints.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Repository layout (top-level)
